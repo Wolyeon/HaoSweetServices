@@ -1,7 +1,7 @@
 import pandas as pd
 
 def cleanDF(df: pd.DataFrame) -> pd.DataFrame:
-    labels = ["Name", "pic", "Available Sizes", "Price", "Tested", "Finalized", "Description", "Notes"]
+    labels = ["name", "pic", "sizes", "price", "tested", "finalized", "description", "Notes"]
     df.columns = labels
     df = df.drop(["pic", "Notes"], axis=1)
     df = df.drop(0, axis=0)
