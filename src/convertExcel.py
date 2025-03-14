@@ -5,7 +5,11 @@ def cleanDF(df: pd.DataFrame) -> pd.DataFrame:
     df.columns = labels
     df = df.drop(["pic", "Notes"], axis=1)
     df = df.drop(0, axis=0)
-    return df
+    # In the event some cells are not filled out we should fill them in.
+    df["description"].fillna("No Description", inplace=True)
+    df["sizes"].fillna("No set sizes yet", inplace=True)
+    df["price"].fillna("No price set yet", inplace=True)
+    return df                                                                       
 
 xcel = pd.ExcelFile("Menu.xlsx")
 cakeDF = pd.read_excel("Menu.xlsx", "Cakes")
@@ -16,7 +20,6 @@ cakeDF = cleanDF(cakeDF)
 tartDF = cleanDF(tartDF)
 otherDF = cleanDF(otherDF)
 
-cakeDF = cakeDF.transpose()
-
-cakeDF.to_json("cakeInfo.json")
 print(cakeDF)
+
+cakeDF.to_json("cakeInfo.json", orient="records")
