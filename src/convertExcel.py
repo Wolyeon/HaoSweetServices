@@ -16,8 +16,7 @@ cakeDF = cleanDF(cakeDF)
 tartDF = cleanDF(tartDF)
 otherDF = cleanDF(otherDF)
 
-print(cakeDF)
-print(tartDF)
-print(otherDF)
+cakeDF = cakeDF.transpose()
 
-cakeDF.to_json("cakeData.json")
+cakeDF.to_json("cakeInfo.json")
+print(cakeDF)
