@@ -76,7 +76,7 @@ def _forward_order(orderinfo: OrderInformation, gservice: any):
     message = EmailMessage()
 
     message.set_content(
-        "We've received a new order!!!!!\n"
+        f"We've received a new order from {orderinfo.name}!!!!!\n"
         "cake:" + orderinfo.cakeName + "\n" +
         "size:" + orderinfo.cakeSize + "\n" +
         "pickup:" + orderinfo.pickupdate + "\n" +
