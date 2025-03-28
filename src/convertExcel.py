@@ -10,10 +10,16 @@ def cleanDF(df: pd.DataFrame) -> pd.DataFrame:
     # We want to add in another column that will be used for resolving the image URL
     df["image"] = df["name"]
     # In the event some cells are not filled out we should fill them in.
+    # This is not really ok but is fine since our data is small 
     df["description"].fillna("No Description", inplace=True)
     df["sizes"].fillna("No set sizes yet", inplace=True)
     df["price"].fillna("No price set yet", inplace=True)
     return df                                                                       
+
+def changeIndexToName(df: pd.DataFrame) -> pd.DataFrame:
+    df.index = df["name"]
+    return df
+
 
 xcel = pd.ExcelFile("Menu.xlsx")
 cakeDF = pd.read_excel("Menu.xlsx", "Cakes")
@@ -24,7 +30,12 @@ cakeDF = cleanDF(cakeDF)
 tartDF = cleanDF(tartDF)
 otherDF = cleanDF(otherDF)
 
-print(cakeDF)
+indCakeDF = changeIndexToName(cakeDF)
+indTartDF = changeIndexToName(tartDF)
+inOtherDF = changeIndexToName(otherDF)
+
+totDF = pd.concat([indCakeDF, indTartDF, inOtherDF])
+totDF.to_json("AllCakes.json", orient="index")
 
 # We want to print out the json in each line as an individual object
 # so we orient by records.

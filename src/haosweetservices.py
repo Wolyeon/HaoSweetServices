@@ -13,7 +13,10 @@ from googleapiclient.errors import HttpError
 #Imports to setup the backend service
 from fastapi import FastAPI
 from .orderinformation import OrderInformation
+from cakeinformation import CakeInformation
+import pandas as pd
 
+CAKES = pd.read_json("AllCakes.json")
 SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
 
 app = FastAPI()
@@ -35,6 +38,24 @@ def send_mail(orderInfo: OrderInformation):
     
     return {"It":"Worked!"}
 
+@app.get("/cakes")
+def get_cakes():
+    if os.path.exists("cakeInfo.json"):
+        return pd.read_json("cakeInfo.json")
+    
+@app.get("/tarts")
+def get_tarts():
+    if os.path.exists("tartInfo.json"):
+        return pd.read_json("tartInfo.json")
+
+@app.get("others")
+def get_others():
+    if os.path.exists("otherInfo.json"):
+        return pd.read_json("otherInfo.json")
+
+@app.get("/cake/{cake_name}")
+def get_cakebyname(cake_name: str) -> CakeInformation:
+    return CAKES["cake_name"]
 
 # API helper functions
 def _get_credentials() -> Credentials:
