@@ -11,7 +11,7 @@ from google.auth.transport.requests import Request
 from googleapiclient.errors import HttpError
 
 #Imports to setup the backend service
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from .orderinformation import OrderInformation
 from cakeinformation import CakeInformation
 import pandas as pd
@@ -42,22 +42,32 @@ def send_mail(orderInfo: OrderInformation):
 def get_cakes():
     if os.path.exists("cakeInfo.json"):
         return pd.read_json("cakeInfo.json")
+    else:
+        raise HTTPException(status_code="500", detail="Could not find the information on the server")
     
 @app.get("/tarts")
 def get_tarts():
     if os.path.exists("tartInfo.json"):
         return pd.read_json("tartInfo.json")
+    else:
+        raise HTTPException(status_code="500", detail="Could not find the information on the server")
 
-@app.get("others")
+@app.get("/others")
 def get_others():
     if os.path.exists("otherInfo.json"):
         return pd.read_json("otherInfo.json")
-
+    else:
+        raise HTTPException(status_code="500", detail="Could not find the information on the server")
+    
 @app.get("/cake/{cake_name}")
 def get_cakebyname(cake_name: str) -> CakeInformation:
+    if CAKES == []:
+        raise HTTPException(status_code="500", detail="Could not find the information on the server")
     return CAKES["cake_name"]
 
-# API helper functions
+##############################
+#### API helper functions ####
+##############################
 def _get_credentials() -> Credentials:
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
