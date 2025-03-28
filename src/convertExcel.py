@@ -14,6 +14,9 @@ def cleanDF(df: pd.DataFrame) -> pd.DataFrame:
     df["description"].fillna("No Description", inplace=True)
     df["sizes"].fillna("No set sizes yet", inplace=True)
     df["price"].fillna("No price set yet", inplace=True)
+    df["tested"] = df["tested"].astype(bool)
+    df["finalized"] = df["finalized"].astype(bool)
+    print(df.dtypes)
     return df                                                                       
 
 def changeIndexToName(df: pd.DataFrame) -> pd.DataFrame:

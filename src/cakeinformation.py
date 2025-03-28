@@ -1,8 +1,10 @@
-class CakeInformation:
+from pydantic import BaseModel
+
+class CakeInformation(BaseModel):
     name: str
     sizes: str
     price: str
-    tested: bool
-    finalized: bool
+    tested: str
+    finalized: str
     description: str
     image: str

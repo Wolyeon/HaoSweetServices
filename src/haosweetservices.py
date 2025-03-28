@@ -12,14 +12,36 @@ from googleapiclient.errors import HttpError
 
 #Imports to setup the backend service
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware import Middleware
+from fastapi.middleware.cors import CORSMiddleware
 from .orderinformation import OrderInformation
-from cakeinformation import CakeInformation
+from .cakeinformation import CakeInformation
 import pandas as pd
+import json
 
 CAKES = pd.read_json("AllCakes.json")
 SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
 
-app = FastAPI()
+###################################
+#### Set up backend API server ####
+###################################
+origins = [
+    "http://localhost:4200"
+]
+# For whatever reason add_middleware does not work
+# as it should so we must do it this way when first
+# Creatign the fastAPI app.
+middleware = [
+    Middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+]
+
+app = FastAPI(middleware=middleware)
 
 # API callables
 @app.post("/order")
@@ -41,7 +63,10 @@ def send_mail(orderInfo: OrderInformation):
 @app.get("/cakes")
 def get_cakes():
     if os.path.exists("cakeInfo.json"):
-        return pd.read_json("cakeInfo.json")
+        with open("cakeInfo.json") as cakedata:
+            cakeinfo = json.load(cakedata)
+            print(cakeinfo)
+        return cakeinfo
     else:
         raise HTTPException(status_code="500", detail="Could not find the information on the server")
     
