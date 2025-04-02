@@ -19,7 +19,11 @@ from .cakeinformation import CakeInformation
 import pandas as pd
 import json
 
-CAKES = pd.read_json("AllCakes.json")
+# We open up the json file and load it to your static variable
+CAKES = []
+with open("AllCakes.json") as AllCakeFile:
+    CAKES = json.load(AllCakeFile)
+
 SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
 
 ###################################
@@ -81,17 +85,17 @@ def get_tarts():
 @app.get("/others")
 def get_others():
     if os.path.exists("otherInfo.json"):
-        with open("cakeInfo.json") as otherdata:
+        with open("otherInfo.json") as otherdata:
             otherinfo = json.load(otherdata)
         return otherinfo
     else:
         raise HTTPException(status_code="500", detail="Could not find the information on the server")
     
-@app.get("/cake/{cake_name}")
-def get_cakebyname(cake_name: str) -> CakeInformation:
+@app.get("/cakes/{productId}")
+def get_cakebyname(productId: str) -> CakeInformation:
     if CAKES == []:
         raise HTTPException(status_code="500", detail="Could not find the information on the server")
-    return CAKES["cake_name"]
+    return CAKES[productId]
 
 ##############################
 #### API helper functions ####

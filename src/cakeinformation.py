@@ -4,7 +4,9 @@ class CakeInformation(BaseModel):
     name: str
     sizes: str
     price: str
-    tested: str
-    finalized: str
+    tested: bool
+    finalized: bool
     description: str
+    type: str
     image: str
+    productId: str
