@@ -15,6 +15,7 @@ def cleanDF(df: pd.DataFrame) -> pd.DataFrame:
     df["description"].fillna("No Description", inplace=True)
     df["sizes"].fillna("No set sizes yet", inplace=True)
     df["price"].fillna("No price set yet", inplace=True)
+    df["price"] = df["price"].astype(str)
     df["tested"] = df["tested"].astype(bool)
     df["finalized"] = df["finalized"].astype(bool)
     return df                                                                       
@@ -41,8 +42,9 @@ totDF = pd.concat([cakeDF, tartDF, otherDF]).reset_index(drop=True)
 totDF["productId"] = totDF.index.astype(str)
 #print(totDF)
 totDF.to_json("AllCakes.json", orient="index")
+totDF.to_json("products.json", orient="records")
 
-# We want to print out the json in each line as an individual object
+# We want to print out the json in each line as an individual json object
 # so we orient by records.
 totDF.loc[totDF["type"]=="cake"].to_json("cakeInfo.json", orient="records")
 totDF.loc[totDF["type"]=="tart"].to_json("tartInfo.json", orient="records")

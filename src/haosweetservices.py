@@ -69,7 +69,7 @@ def get_cakes():
     if os.path.exists("cakeInfo.json"):
         with open("cakeInfo.json") as cakedata:
             cakeinfo = json.load(cakedata)
-        return cakeinfo
+            return cakeinfo
     else:
         raise HTTPException(status_code="500", detail="Could not find the information on the server")
     
@@ -78,7 +78,7 @@ def get_tarts():
     if os.path.exists("tartInfo.json"):
         with open("tartInfo.json") as tartdata:
             tartinfo = json.load(tartdata)
-        return tartinfo
+            return tartinfo
     else:
         raise HTTPException(status_code="500", detail="Could not find the information on the server")
 
@@ -87,9 +87,19 @@ def get_others():
     if os.path.exists("otherInfo.json"):
         with open("otherInfo.json") as otherdata:
             otherinfo = json.load(otherdata)
-        return otherinfo
+            return otherinfo
     else:
         raise HTTPException(status_code="500", detail="Could not find the information on the server")
+    
+@app.get("/allcakes")
+def get_allcakes() -> list[CakeInformation]:
+    if os.path.exists("products.json"):
+        with open("products.json") as alldata:
+            allinfo = json.load(alldata)
+            return allinfo
+    else:
+        raise HTTPException(status_code="500", detail="Could not find the information on the server")
+
     
 @app.get("/cakes/{productId}")
 def get_cakebyname(productId: str) -> CakeInformation:
