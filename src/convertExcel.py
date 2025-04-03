@@ -1,4 +1,5 @@
 import pandas as pd
+import re
 import json
 
 def cleanDF(df: pd.DataFrame) -> pd.DataFrame:
@@ -15,6 +16,14 @@ def cleanDF(df: pd.DataFrame) -> pd.DataFrame:
     df["description"].fillna("No Description", inplace=True)
     df["sizes"].fillna("No set sizes yet", inplace=True)
     df["price"].fillna("No price set yet", inplace=True)
+
+    # In order to display the different sizes, we need to split the sizes from what
+    # is shown on the excel sheet. We will use RE to split for back slashes (/) and word (or)
+    df["sizes"] = df["sizes"].apply(lambda x: re.split(" / | or ", x))
+    print(df["sizes"])
+
+    # To ensure datatypes are consistent across multiple rows we will
+    # cast the columns that can have varying types to a set type.
     df["price"] = df["price"].astype(str)
     df["tested"] = df["tested"].astype(bool)
     df["finalized"] = df["finalized"].astype(bool)
