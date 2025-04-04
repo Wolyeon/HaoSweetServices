@@ -49,7 +49,7 @@ totDF = pd.concat([cakeDF, tartDF, otherDF]).reset_index(drop=True)
 
 # Using the index numbers we give each cake a unique ID number
 totDF["productId"] = totDF.index.astype(str)
-#print(totDF)
+print(totDF.dtypes)
 totDF.to_json("AllCakes.json", orient="index")
 totDF.to_json("products.json", orient="records")
 
@@ -58,8 +58,3 @@ totDF.to_json("products.json", orient="records")
 totDF.loc[totDF["type"]=="cake"].to_json("cakeInfo.json", orient="records")
 totDF.loc[totDF["type"]=="tart"].to_json("tartInfo.json", orient="records")
 totDF.loc[totDF["type"]=="other"].to_json("otherInfo.json", orient="records")
-
-CAKES = []
-with open("AllCakes.json") as file:
-    CAKES = json.load(file)
-print(CAKES["2"])
