@@ -13,9 +13,9 @@ def cleanDF(df: pd.DataFrame) -> pd.DataFrame:
     df["image"] = df["name"]
     # In the event some cells are not filled out we should fill them in.
     # This is not really ok but is fine since our data is small 
-    df["description"].fillna("No Description", inplace=True)
-    df["sizes"].fillna("No set sizes yet", inplace=True)
-    df["price"].fillna("No price set yet", inplace=True)
+    df["description"] = df["description"].fillna("No Description")
+    df["sizes"] = df["sizes"].fillna("No set sizes yet")
+    df["price"] = df["price"].fillna("No price set yet")
 
     # In order to display the different sizes, we need to split the sizes from what
     # is shown on the excel sheet. We will use RE to split for back slashes (/) and word (or)
