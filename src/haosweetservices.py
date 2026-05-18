@@ -34,7 +34,7 @@ origins = [
 ]
 # For whatever reason add_middleware does not work
 # as it should so we must do it this way when first
-# Creatign the fastAPI app.
+# Creating the fastAPI app.
 middleware = [
     Middleware(
         CORSMiddleware,
