@@ -30,7 +30,8 @@ SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
 #### Set up backend API server ####
 ###################################
 origins = [
-    "http://localhost:4200"
+    "http://localhost:4200",
+    "https://wolyeon.github.io/HaoSweetWebsite/"
 ]
 # For whatever reason add_middleware does not work
 # as it should so we must do it this way when first
