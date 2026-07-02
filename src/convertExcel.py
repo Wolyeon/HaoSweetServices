@@ -1,6 +1,10 @@
 import pandas as pd
 import re
 import json
+from pathlib import Path
+BASE_PATH = Path(__file__).parent
+MENU_FILE = BASE_PATH / "data" / "Menu.xlsx"
+
 
 def cleanDF(df: pd.DataFrame) -> pd.DataFrame:
     labels = ["name", "pic", "sizes", "price", "tested", "finalized", "description", "Notes", "type"]
@@ -34,10 +38,10 @@ def changeIndexToName(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-xcel = pd.ExcelFile("Menu.xlsx")
-cakeDF = pd.read_excel("Menu.xlsx", "Cakes").assign(type="cake")
-tartDF = pd.read_excel("Menu.xlsx", "Tarts").assign(type="tart")
-otherDF = pd.read_excel("Menu.xlsx", "Other").assign(type="other")
+xcel = pd.ExcelFile(MENU_FILE)
+cakeDF = pd.read_excel(MENU_FILE, "Cakes").assign(type="cake")
+tartDF = pd.read_excel(MENU_FILE, "Tarts").assign(type="tart")
+otherDF = pd.read_excel(MENU_FILE, "Other").assign(type="other")
 
 cakeDF = cleanDF(cakeDF)
 tartDF = cleanDF(tartDF)
